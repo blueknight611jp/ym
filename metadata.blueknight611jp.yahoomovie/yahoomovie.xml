@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><scraper framework="1.1" date="2015-01-17" name="jav" content="movies" language="en">
+	<NfoUrl dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
+			<expression />
+		</RegExp>
+	</NfoUrl>
+	<CreateSearchUrl clearbuffers="no" dest="3">
+		<RegExp input="$$1" output="&lt;url&gt;http://www.allcinema.net/prog/search_all.php?SearchTxt=\1&lt;/url&gt;" dest="3">
+			<expression></expression>
+		</RegExp>
+		
+	</CreateSearchUrl>
+	
+        
+    
+    <GetSearchResults clearbuffers="no" dest="8">
+        <!-- searchした結果は 1: 単独の映画情報そのもののページ　2: 一致したリストを含むページ 二通りがある -->
+        
+        <RegExp input="$$6" output="&lt;?xml version=&quot;1.02&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;results&gt;\1&lt;/results&gt;" dest="8">
+            <RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\1&lt;/title&gt;&lt;url&gt;http://www.allcinema.net/prog/show_c.php?num_c=\2&lt;/url&gt;&lt;/entity&gt;" dest="6">
+                <expression>&lt;h1 class=&quot;title&quot;&gt;(.*?)&lt;span.*?keyid=([0-9]+)</expression>
+            </RegExp>
+            
+            <RegExp input="$$7" output="&lt;entity&gt;&lt;title&gt;\2\4&lt;/title&gt;&lt;url&gt;http://www.allcinema.net/prog/show_c.php?num_c=\1&lt;/url&gt;&lt;/entity&gt;" dest="6">
+                <expression trim="1" repeat="yes" noclean="1">&lt;a href=&apos;show_c.php\?num_c=([0-9]+)&apos;&gt;(.*?)&lt;/a&gt;(.*?)(\([0-9]{4}\)).*?&lt;</expression>
+                    <RegExp input="$$1" output="\1" dest="7">
+                        <expression noclean="1">&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellspacing=&quot;2&quot;&gt;(.*?)&lt;/table&gt;</expression>
+
+                    </RegExp>
+            </RegExp>
+
+
+        <expression noclean="1"></expression>
+        </RegExp>
+
+
+      
+   </GetSearchResults>
+        
+
+        
+	<GetDetails dest="4">
+		<RegExp input="$$8" output="&lt;details&gt;\1&lt;/details&gt;" dest="4">
+            <!-- <h1 class="title">シービスケット<span class="age">(2003)</span></h1> -->
+			<RegExp input="$$1" output="&lt;title&gt;\1\2&lt;/title&gt;" dest="8">
+				<expression>&lt;h1 class=&quot;title&quot;&gt;(.*?)&lt;span class=&quot;age&quot;&gt;(\([0-9]{4}\))&lt;/span&gt;</expression>
+			</RegExp>
+            
+            <RegExp input="$$1" output="&lt;year&gt;\1&lt;/year&gt;" dest="8+">
+                <expression>&lt;h1 class=&quot;title&quot;&gt;.*?&lt;span class=&quot;age&quot;&gt;\(([0-9]{4})\)&lt;/span&gt;</expression>
+            </RegExp>
+            
+            <!-- <tr><td>監督：</td><td><a href="show_p.php?num_p=4971">ロバート・ゼメキス</a></td><td></td></tr> -->
+            <RegExp input="$$1" output="&lt;director&gt;\1&lt;/director&gt;" dest="8+">
+                <expression>&lt;td&gt;監督：&lt;.*?&gt;(.*?)&lt;/a&gt;</expression>
+            </RegExp>
+            
+            <!-- <span class="catch_copy">彼は<br />英雄（ヒーロー）か<br />犯罪者か</span> -->
+            <RegExp input="$$1" output="&lt;tagline&gt;\1&lt;/tagline&gt;" dest="8+">
+                <expression>class=&quot;catch_copy&quot;&gt;(.*?)&lt;/span&gt;</expression>
+            </RegExp>       
+            
+            <!-- <td class="fwb">上映時間</td><td>138分</td> -->
+            <RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="8+">
+                <expression>上映時間.*?([0-9]*)分&lt;</expression>
+            </RegExp>           
+            
+            <!-- stealMain"><img src='http://ecx.images-amazon.com/images/I/51A6epIedZL._SL160_.jpg' border -->
+            <!-- http://www.allcinema.net/prog/image_large.php?i=343694&t=0&im=29513&nm=%25A5%25D5%25A5%25E9%25A5%25A4%25A5%25C8 -->
+            
+			<RegExp input="$$1" output="&lt;thumb&gt;\1&lt;/thumb&gt;" dest="8+">
+				<expression>stealMain&quot;&gt;&lt;img src=&apos;(.*?)&apos;</expression>
+			</RegExp>
+            
+			
+            <!--
+             <table summary="CAST表">
+                <tr><td>出演：</td>    <td><a href="show_p.php?num_p=42469">オードリー・ヘプバーン</a></td><td>イライザ</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=40103">レックス・ハリソン</a></td><td>ヘンリー・ヒギンズ</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=38649">スタンリー・ホロウェイ</a></td><td>イライザの父</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=39520">ウィルフリッド・ハイド＝ホワイト</a></td><td>ピカリング大佐</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=38422">グラディス・クーパー</a></td><td>ヒギンズの母</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=48648">ジェレミー・ブレット</a></td><td>フレディ</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=38624">セオドア・バイケル</a></td><td>ヒギンズの教え子</td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=38705">モナ・ウォッシュボーン</a></td><td></td></tr>
+                <tr><td></td>         <td><a href="show_p.php?num_p=42158">イソベル・エルソム</a></td><td></td></tr>
+             </table>
+             -->
+            <RegExp input="$$1" output="\1" dest="7">
+                <expression noclean="1">&lt;table summary=&quot;CAST表&quot;&gt;(.*?)&lt;/table&gt;</expression>
+            </RegExp>
+            
+			<RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\2&lt;/name&gt;&lt;role&gt;\3&lt;/role&gt;&lt;/actor&gt;" dest="8+">
+				<expression noclean="1" repeat="yes">=([0-9]{5})&quot;&gt;(.*?)&lt;/a&gt;&lt;/td&gt;&lt;td&gt;(.*?)&lt;</expression>
+                
+            </RegExp>
+            
+            
+            
+            
+            <!-- ジャンル</td><td>ドラマ／ミステリー／サスペンス</td> -->
+            <!-- ジャンル</td><td>ミステリー／音楽</td> -->
+            <!-- ジャンル</td><td>ドラマ</td> -->
+            <!-- 文字列の最後に区切り文字の／を追加して、ジャンルを切り出している -->
+            <RegExp input="$$1" output="\1／" dest="7">
+                    <expression>ジャンル&lt;/td&gt;&lt;td&gt;(.*?)&lt;/td&gt;</expression>
+            </RegExp>
+            
+            <RegExp input="$$7" output="&lt;genre&gt;\1&lt;/genre&gt;" dest="8+">
+                    <expression repeat="yes">(.*?)／</expression>
+			</RegExp>
+         
+            
+            
+            <!-- <div class="guidetext">　「トレーニング デイ」「デンジャラス・ラン」の名優デンゼル・ワシント動き出すが…。<br /><span style
+             <div class="guidetext">　世界恐慌下のアメリカで、一頭の競走馬に全てを賭けた３人の男たちの人生をドラマチックに描いた勇気と感動のヒューマン・ドラマ。原作はローラ・ヒレンブランドのベストセラー・ノンフィクション小説『シービスケット　あるアメリカ競走馬の伝説』。監督は「カラー・オブ・ハート」のゲイリー・ロス。主演は「サイダーハウス・ルール」「スパイダーマン」のトビー・マグワイア。共演に「ビッグ・リボウスキ」のジェフ・ブリッジスと「アダプテーション」のクリス・クーパー。<br />　1929年10月、アメリカは株の大暴落で大恐慌時代に陥った。それまで自動車ディーラーとして成功を収めていたハワードは、皮肉にも最愛の息子を交通事故で亡くし、妻にも去られてしまった。そんな彼は1933年、運命的に出会った女性マーセラと結婚。そして、乗馬の愛好家である彼女に影響を受け、競馬の世界に傾倒していく。やがて彼は、馬に人一倍愛情を注ぐ元カウボーイ、スミスを調教師として雇う。スミスは“シービスケット”と呼ばれる小柄で気性の荒いサラブレッドの潜在能力に目を付け、ハワードにその馬を購入するよう進言する。そして、誰もが手を焼くその馬の騎手に、気が強くて喧嘩っ早い男レッドを起用するのだった。<br /><span style="float: right"><strong>＜allcinema＞</strong></span></div></div><!-- guide END -->
+            -->
+            
+			<RegExp input="$$1" output="&lt;plot&gt;\1&lt;/plot&gt;" dest="8+">
+				<expression trim="1">&lt;div class=&quot;guidetext&quot;&gt;(.*?)&lt;span</expression>
+			</RegExp>
+			<expression noclean="1"/>
+		</RegExp>
+	</GetDetails>
+</scraper>
