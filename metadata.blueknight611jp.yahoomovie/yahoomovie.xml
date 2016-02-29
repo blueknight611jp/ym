@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding=utf-8?>
 <scraper framework="1.1" date="2016.2.29" name="yahoomovie" content="movies" language="en">
+
 	<NfoUrl dest="3">
 		<RegExp input="$$1" output="\1" dest="3">
 			<expression></expression>
@@ -37,12 +38,12 @@
       作品トップ　<a href="/movie/48%E6%99%82%E9%96%93/24452/　$1
       あらすじは　<a href="/movie/48%E6%99%82%E9%96%93/24452/story/"  >　$2
       クレジット　<a href="/movie/48%E6%99%82%E9%96%93/24452/credit/"  > $3
-      
+      fanart http://movies.yahoo.co.jp/movie/48%E6%99%82%E9%96%93/24452/photo/   $4
       -->
      
      
         <RegExp input="$$6" output="&lt;?xml version=&quot;1.02&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;&lt;results&gt;\1&lt;/results&gt;" dest="8">
-            <RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\4&lt;/title&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/&lt;/url&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/story/&lt;/url&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/credit/&lt;/url&gt;&lt;/entity&gt;" dest="6">
+            <RegExp input="$$1" output="&lt;entity&gt;&lt;title&gt;\4&lt;/title&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/&lt;/url&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/story/&lt;/url&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/credit/&lt;/url&gt;&lt;url&gt;http://movies.yahoo.co.jp/movie/\2/\1/photo/&lt;/url&gt;&lt;/entity&gt;" dest="6">
                 <expression repeat="yes" noclean="1">&lt;li class="col" data-cinema-id="(.*?)"&gt;.*?&lt;a href=&quot;/movie/(.*?)/([0-9]*?)/".*?title="(.*?)"</expression>
             </RegExp>
         <expression noclean="1"></expression>
@@ -53,11 +54,10 @@
         
 	<GetDetails dest="4">
 		<RegExp input="$$8" output="&lt;details&gt;\1&lt;/details&gt;" dest="4">
+            
+            
             <!--    タイトルは　$1の
-
-             
              <title>オデッセイ - 作品 - Yahoo!映画</title>
-
              -->
 			<RegExp input="$$1" output="&lt;title&gt;\1&lt;/title&gt;" dest="8">
 				<expression noclean="1">&lt;title&gt;(.*?) (.*)&lt;/title&gt;</expression>
@@ -67,8 +67,8 @@
              "prdtyear":"2015","runtime":"142"
              -->
             <RegExp input="$$1" output="&lt;year&gt;\1&lt;/year&gt;" dest="8+">
-				<expression>prdtyear&quot;:&quot;(.*?)&quot;</expression>
-			</RegExp>
+				<expression>&quot;prdtyear&quot;:&quot;(.*?)&quot;</expression>
+            </RegExp>
             
             
             <!--
@@ -80,7 +80,7 @@
                 <expression>runtime&quot;:&quot;(.*?)&quot;</expression>
             </RegExp>
             
-            
+
             <!-- 監督は　$3の
                <dt>監督</dt><dd><a href="/person/%E3%83%AA%E3%83%89%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%B9%E3%82%B3%E3%83%83%E3%83%88/5005/">リドリー・スコット</a></dd>>
 
@@ -95,11 +95,15 @@
             <!-- サムネイルは$1で
              <p class="thumbnail__figure " style="background-image:url(http://iwiz-movies.c.yimg.jp/im_sigg2.Mc66X1Lt_43tBMvApxiw---x680/c/movies/pict/p/p/73/ea/134837_01.jpg)"></p>
 
+             <RegExp input="$$1" output="&lt;thumb&gt;\1&lt;/thumb&gt;" dest="8+">
+             <expression>&quot;background-image:url\((.*?)\)&quot;&gt;&lt;/p&gt;</expression>
+             </RegExp>
+             
              -->
             
-			<RegExp input="$$1" output="&lt;thumb&gt;\1&lt;/thumb&gt;" dest="8+">
-				<expression>&quot;background-image:url\((.*?)\)&quot;&gt;&lt;/p&gt;</expression>
-			</RegExp>
+            <RegExp input="$$1" output="&lt;thumb&gt;\1&lt;/thumb&gt;" dest="8+">
+                <expression>&quot;background-image:url\((.*?)\)&quot;&gt;&lt;/p&gt;</expression>
+            </RegExp>
             
 			
             <!--　キャストは $3で
@@ -113,6 +117,10 @@
                 <div class="box__cell w100">
                     <div class="thumbnail thumbnail--person">
                         <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/27/aa/53411.jpg)">
+             
+                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/14/23/w970455453-view.jpg)">
+                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/9f/b9/219.jpg)">
+             というパターンもある
                         </div>
                     </div>
                 </div>
@@ -133,15 +141,58 @@
 
             </RegExp-->
                 
-            <RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\2test&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
+            <RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\3&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
                 <RegExp input="$$3" output="\1" dest="7">
                     <expression noclean="1">&lt;div id=&quot;cstl&quot;&gt;(.*?)&lt;div id=&quot;stfl&quot;&gt;</expression>
                 </RegExp>
-                <expression repeat="yes" noclean="1">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/[0-9]*/[a-z]*/[0-9]*\.jpg)\)&quot;&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;div class</expression>
+                <expression repeat="yes" noclean="1">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/.{2}/.{2}/(w[0-9]+-view|[0-9]+)\.jpg)\)&quot;&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;div class=&quot;box__cell pl1em&quot;&gt;\s*&lt;h3 class=&quot;text-middle text-break color-sub&quot;&gt;(.*?)&lt;/h3&gt;</expression>
                 
             </RegExp>
             
+
             
+            <!-- fanartは$4から
+             
+             <section class="section">
+             <div class="container">
+             <div id="pctr">    <div class="row align-center">
+             
+             <div class="img-bordered bgcolor-layer">
+             <div class="img-bordered__figure">
+             <img src="http://iwiz-movies.c.yimg.jp/c/movies/pict/c/p/d2/c6/348085_001.jpg" alt="">
+             </div>
+             
+             <img src="http://iwiz-movies.c.yimg.jp/c/movies/pict/c/p/b5/20/321448view001.jpg" alt="">
+             
+             <div class="img-bordered__caption">
+             <p class="text-xxsmall">Warner Bros. / Photofest / ゲッティ イメージズ</p>
+             </div>
+             
+             </div>
+             
+             
+             <a href="/movie/%E3%82%AA%E3%83%BC%E3%83%AB%E3%83%BB%E3%83%A6%E3%83%BC%E3%83%BB%E3%83%8B%E3%83%BC%E3%83%89%E3%83%BB%E3%82%A4%E3%82%BA%E3%83%BB%E3%82%AD%E3%83%AB/348085/photo/?page=2" class="position-right p2em" title="次へ" data-ylk="slk:next;pos:0">
+             <i class="icon-chevron-right color-sub"></i>
+             </a>
+             
+             </div>
+             
+             </div>    </div>
+             </section>
+             
+             <RegExp input="$$4" output="&lt;thumb&gt;&lt;fanart&gt;\1&lt;/fanart&gt;&lt;/thumb&gt;" dest="8+">
+             <expression>&lt;img src=&quot;(http://iwiz-movies.c.yimg.jp/c/movies/pict/.*?\.jpg)&quot; alt=&quot;&quot;&gt;</expression>
+             </RegExp>
+             
+             -->
+            
+            <RegExp input="$$4" output="&lt;fanart&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/fanart&gt;" dest="8+">
+                <expression>&lt;img src=&quot;(http://iwiz-movies.c.yimg.jp/c/movies/pict/.*?\.jpg)&quot; alt=&quot;&quot;&gt;</expression>
+            </RegExp>
+            
+           
+
+
             
             <!-- ジャンル
              <tr>
@@ -165,7 +216,7 @@
              -->
             
 			<RegExp input="$$2" output="&lt;plot&gt;\1&lt;/plot&gt;" dest="8+">
-				<expression trim="1">&lt;p class=&quot;text-readable&quot;&gt;(.*?)&lt;p class</expression>
+				<expression trim="yes">&lt;p class=&quot;text-readable&quot;&gt;(.*?)&lt;p class</expression>
 			</RegExp>
 			<expression noclean="1"/>
 		</RegExp>
