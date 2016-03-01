@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding=utf-8?>
-<scraper framework="1.1" date="2016.2.29" name="yahoomovie" content="movies" language="en">
-
+<?xml version="1.0" encoding="UTF-8"?>
+<scraper framework="1.1" date="2015-01-17" name="jav" content="movies" language="ja">
 	<NfoUrl dest="3">
 		<RegExp input="$$1" output="\1" dest="3">
-			<expression></expression>
+			<expression />
 		</RegExp>
 	</NfoUrl>
     
@@ -57,36 +56,38 @@
             
             
             <!--    タイトルは　$1の
-             <title>オデッセイ - 作品 - Yahoo!映画</title>
+              <meta property="og:title" content="ザスーラ - 作品 - Yahoo!映画">
              -->
 			<RegExp input="$$1" output="&lt;title&gt;\1&lt;/title&gt;" dest="8">
-				<expression noclean="1">&lt;title&gt;(.*?) - .+ - Yahoo!.+&lt;/title&gt;</expression>
+                <expression noclean="yes">"og:title" content="(.*?) </expression>
 			</RegExp>
             <!--
-             製作年度は　＄１
-             "prdtyear":"2015","runtime":"142"
+             "prdtyear":"2005"
              -->
             <RegExp input="$$1" output="&lt;year&gt;\1&lt;/year&gt;" dest="8+">
 				<expression>&quot;prdtyear&quot;:&quot;(.*?)&quot;</expression>
-            </RegExp>
+			</RegExp>
             
             
             <!--
-             runtimeは＄１
              <th class="opacity-60">上映時間</th>
              <td>96分</td>
              -->
             <RegExp input="$$1" output="&lt;runtime&gt;\1&lt;/runtime&gt;" dest="8+">
-                <expression>runtime&quot;:&quot;(.*?)&quot;</expression>
+                <expression>上映時間&lt;/th&gt;.*?&lt;td&gt;(.*?)分&lt;/td&gt;</expression>
             </RegExp>
             
-
-            <!-- 監督は　$3の
-               <dt>監督</dt><dd><a href="/person/%E3%83%AA%E3%83%89%E3%83%AA%E3%83%BC%E3%83%BB%E3%82%B9%E3%82%B3%E3%83%83%E3%83%88/5005/">リドリー・スコット</a></dd>>
-
+            
+            <!-- 監督は　$1の
+             <dl class="dl dl--inline text-small no-space-bottom">
+             <dt>監督</dt><dd><a href="/person/%E3%82%A6%E3%82%A9%E3%83%AB%E3%82%BF%E3%83%BC%E3%83%BB%E3%83%92%E3%83%AB/5941/">ウォルター・ヒル</a></dd>
+             </dl>
+             または　＄３の
+             <dt>監督</dt><dd><a href="/person/%E3%82%B8%E3%83%A7%E3%83%B3%E3%83%BB%E3%83%95%E3%82%A1%E3%83%B4%E3%83%AD%E3%83%BC/68936/">ジョン・ファヴロー</a></dd>
+              <expression utf8="yes">&lt;dt&gt;監督&lt;/dt&gt;&lt;dd&gt;&lt;a href=&quot;.*&quot;&gt;(.*?)&lt;/a&gt;&lt;/dd&gt;</expression>
              -->
-            <RegExp input="$$2" output="&lt;director&gt;\1&lt;/director&gt;" dest="8+">
-                <expression>&lt;dt&gt;.*&lt;/dt&gt;&lt;dd&gt;&lt;a href=&quot;.*&quot;&gt;(.*?)&lt;/a&gt;&lt;/dd&gt;</expression>
+            <RegExp input="$$1" output="&lt;director&gt;test&lt;/director&gt;" dest="8+">
+                <expression noclean="yes" utf8="yes">person</expression>
             </RegExp>
             
             
@@ -106,50 +107,6 @@
             </RegExp>
             
 			
-            <!--　キャストは $3で
-             <div id="cstl"> と　<div id="stfl"> の間の
-             <a href="/person/%E3%83%9E%E3%83%83%E3%83%88%E3%83%BB%E3%83%87%E3%82%A4%E3%83%A2%E3%83%B3/53411/" class="listview__element--right-icon" title="マット・デイモン">
-             <div class="position-right p1em">
-             <i class="icon-chevron-right color-sub"></i>
-             </div>
-             
-             <div class="box">
-                <div class="box__cell w100">
-                    <div class="thumbnail thumbnail--person">
-                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/27/aa/53411.jpg)">
-             
-                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/14/23/w970455453-view.jpg)">
-                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/9f/b9/219.jpg)">
-             というパターンもある
-                        </div>
-                    </div>
-                </div>
-             
-                <div class="box__cell pl1em">
-                    <h3 class="text-middle text-break color-sub">マット・デイモン</h3>
-             
-                        <p class="text-xsmall">マーク・ワトニー</p>
-                </div>
-             </div>
-             -->
-         
-            <!--RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\1&lt;/name&gt;&lt;thumb&gt;\2&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
-                <RegExp input="$$3" output="\1" dest="7">
-                    <expression noclean="1">&lt;div id=&quot;cstl&quot;&gt;(.*?)&lt;div id=&quot;stfl&quot;&gt;</expression>
-                </RegExp>
-                <expression repeat="yes" noclean="2">&lt;a href=&quot;/person/.*?/[0-9]*&quot; class=&quot;listview__element--right-icon&quot; title=&quot;(.*?)&quot;&gt;</expression>
-
-            </RegExp-->
-                
-            <RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\3&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
-                <RegExp input="$$3" output="\1" dest="7">
-                    <expression noclean="1">&lt;div id=&quot;cstl&quot;&gt;(.*?)&lt;div id=&quot;stfl&quot;&gt;</expression>
-                </RegExp>
-                <expression repeat="yes" noclean="1">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/.{2}/.{2}/(w[0-9]+-view|[0-9]+)\.jpg)\)&quot;&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;div class=&quot;box__cell pl1em&quot;&gt;\s*&lt;h3 class=&quot;text-middle text-break color-sub&quot;&gt;(.*?)&lt;/h3&gt;</expression>
-                
-            </RegExp>
-            
-
             
             <!-- fanartは$4から
              
@@ -187,12 +144,51 @@
              -->
             
             <RegExp input="$$4" output="&lt;fanart&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/fanart&gt;" dest="8+">
+                
                 <expression>&lt;img src=&quot;(http://iwiz-movies.c.yimg.jp/c/movies/pict/.*?\.jpg)&quot; alt=&quot;&quot;&gt;</expression>
             </RegExp>
             
            
+            
+            
+            
+            <!--　キャストは $1で
 
+             <li class="col" itemprop="actor" itemscope itemtype="http://schema.org/Person">
+             <a href="/person/%E3%83%8B%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8E%E3%83%AB%E3%83%86%E3%82%A3/38722/" title="ニック・ノルティ" >
+             <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/86/7d/38722.jpg)">
+             </div>
+             </a>
+             <div class="thumbnail__caption">
+             <h3 class="text-xsmall" title="ニック・ノルティ">
+             <a href="/person/%E3%83%8B%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8E%E3%83%AB%E3%83%86%E3%82%A3/38722/"  itemprop="url"><span itemprop="name">ニック・ノルティ</span></a>
+             </h3>
+             <p class="text-xsmall">ジャック・ケイツ</p>
+             </div>
+             </li>
 
+             <a href="/person/%E3%83%A1%E3%83%AB%E3%83%BB%E3%82%AE%E3%83%96%E3%82%BD%E3%83%B3/9381/" title="メル・ギブソン" >
+             <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/ff/cd/9381.jpg)">
+             </div>
+             </a>
+             <div class="thumbnail__caption">
+             <h3 class="text-xsmall" title="メル・ギブソン">
+             <a href="/person/%E3%83%A1%E3%83%AB%E3%83%BB%E3%82%AE%E3%83%96%E3%82%BD%E3%83%B3/9381/"  itemprop="url"><span itemprop="name">メル・ギブソン</span></a>
+             </h3>
+      
+             -->
+            <RegExp input="$$1" output="\1" dest="7">
+                <expression noclean="1">キャスト&lt;/h2&gt;(.*?)&lt;div id=&quot;ad-vo&quot;&gt;</expression>
+            </RegExp>
+            
+			<RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\2&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
+                <expression noclean="1" repeat="yes">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((.*?)\)&quot;&gt;.*?itemprop=&quot;url&quot;&gt;&lt;span itemprop=&quot;name&quot;&gt;(.*?)&lt;/span&gt;</expression>
+
+                
+            </RegExp>
+            
+            
+            
             
             <!-- ジャンル
              <tr>
