@@ -109,6 +109,7 @@
             <!--　キャストは $3で
              <div id="cstl"> と　<div id="stfl"> の間の
              <a href="/person/%E3%83%9E%E3%83%83%E3%83%88%E3%83%BB%E3%83%87%E3%82%A4%E3%83%A2%E3%83%B3/53411/" class="listview__element--right-icon" title="マット・デイモン">
+             <a href="/person/%E5%A3%87%E                                                     8%9C%9C/882891/" class="listview__element--right-icon" title="壇蜜">
              <div class="position-right p1em">
              <i class="icon-chevron-right color-sub"></i>
              </div>
@@ -118,8 +119,12 @@
                     <div class="thumbnail thumbnail--person">
                         <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/27/aa/53411.jpg)">
              
-                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/14/23/w970455453-view.jpg)">
-                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/9f/b9/219.jpg)">
+                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict  /w     /p     /14/23 /w970455453-view.jpg)">
+                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-movies.c.yimg.jp/c/movies/pict  /w     /p     /9f/b9 /219.jpg            )">
+        <div class="thumbnail__figure" style="background-image:url(                http://iwiz-talent.c.yimg.jp/o/talent/images/talent/201602/19/w13/w13-1999-160216.jpg)">
+                        <div class="thumbnail__figure" style="background-image:url(http://iwiz-talent.c.yimg.jp/o/talent/images/talent/201602/19/m06/m06-0265-160216.jpg)">
+             </div>
+             
              というパターンもある
                         </div>
                     </div>
@@ -127,25 +132,14 @@
              
                 <div class="box__cell pl1em">
                     <h3 class="text-middle text-break color-sub">マット・デイモン</h3>
-             
-                        <p class="text-xsmall">マーク・ワトニー</p>
-                </div>
-             </div>
-             -->
-         
-            <!--RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\1&lt;/name&gt;&lt;thumb&gt;\2&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
-                <RegExp input="$$3" output="\1" dest="7">
-                    <expression noclean="1">&lt;div id=&quot;cstl&quot;&gt;(.*?)&lt;div id=&quot;stfl&quot;&gt;</expression>
-                </RegExp>
-                <expression repeat="yes" noclean="2">&lt;a href=&quot;/person/.*?/[0-9]*&quot; class=&quot;listview__element--right-icon&quot; title=&quot;(.*?)&quot;&gt;</expression>
-
-            </RegExp-->
+                    <h3 class="text-middle text-break color-sub">壇蜜</h3>
+   -->
                 
-            <RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\3&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
+            <RegExp input="$$7" output="&lt;actor&gt;&lt;name&gt;\10&lt;/name&gt;&lt;thumb&gt;\1&lt;/thumb&gt;&lt;/actor&gt;" dest="8+">
                 <RegExp input="$$3" output="\1" dest="7">
                     <expression noclean="1">&lt;div id=&quot;cstl&quot;&gt;(.*?)&lt;div id=&quot;stfl&quot;&gt;</expression>
                 </RegExp>
-                <expression repeat="yes" noclean="1">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((http://iwiz-movies.c.yimg.jp/c/movies/pict/w/p/.{2}/.{2}/(w[0-9]+-view|[0-9]+)\.jpg)\)&quot;&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;div class=&quot;box__cell pl1em&quot;&gt;\s*&lt;h3 class=&quot;text-middle text-break color-sub&quot;&gt;(.*?)&lt;/h3&gt;</expression>
+                <expression repeat="yes" noclean="1">&lt;div class=&quot;thumbnail__figure&quot; style=&quot;background-image:url\((http://iwiz-(movies|talent).c.yimg.jp/(c|o)/(movies|talent)/(pict|images)/(w|talent)/(p|[0-9]+)/.{2}/.{2,3}/(w[0-9]+-view|[0-9]+|(w|m)[0-9]+-[0-9]+-[0-9]+)\.jpg)\)&quot;&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;/div&gt;\s*&lt;div class=&quot;box__cell pl1em&quot;&gt;\s*&lt;h3 class=&quot;text-middle text-break color-sub&quot;&gt;(.*?)&lt;/h3&gt;</expression>
                 
             </RegExp>
             
